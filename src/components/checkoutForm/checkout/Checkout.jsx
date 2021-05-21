@@ -1,18 +1,22 @@
 import React, {useState, useEffect} from 'react'
-import { Paper, Stepper, Step, StepLabel, Typography,CircularProgress, Divider, Buttom } from '@material-ui/core'
-import useStyles from './styles'
+import {CssBaseline, Paper, Stepper, Step, StepLabel, Typography, CircularProgress, Divider, Buttom } from '@material-ui/core'
+import { Link, useHistory } from 'react-router-dom';
+
+import {commerce} from '../../../lib/commerce'
+
 import AddressForm from '../AddressForm'
 import PaymentForm from '../PaymentForm'
 
-import {commerce} from '../../../lib/commerce'
+import useStyles from './styles'
+
 const steps = ['Shipping address', 'Payment details']
 
 const Checkout = ({cart, order, onCaptureCheckout, error}) => {
     const [activeStep, setActiveStep] = useState(0)
     const classes = useStyles()
-
+    
     const [checkoutToken, setCheckoutToken] = useState(null)
-    const [shippingData, setShippingData] = useState({})
+    const [shippingData, setShippingData] = useState([])
 
     useEffect(()=>{
         const generateToken = async ()=>{
@@ -21,10 +25,11 @@ const Checkout = ({cart, order, onCaptureCheckout, error}) => {
                 // console.log(token)
                 setCheckoutToken(token)
             } catch (error) {
-                
+                console.error('shippingData ERROR', shippingData)
             }
         }
         generateToken()
+        console.log('data shipping _ EFFECT _ checkout',shippingData)
     }, [cart])
 
     const nextStep = () => setActiveStep((prevActiveStep)=> prevActiveStep + 1)
@@ -32,6 +37,8 @@ const Checkout = ({cart, order, onCaptureCheckout, error}) => {
 
     const next = (data) =>{
         setShippingData(data)
+        console.log('data shipping _ NEXT _ checkout',shippingData)
+        // console.log('data set shipping _ NEXT _ checkout',setShippingData)
 
         nextStep()
     }

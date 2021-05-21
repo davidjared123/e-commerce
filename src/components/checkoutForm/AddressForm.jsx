@@ -54,7 +54,7 @@ const AddressForm = ({ checkoutToken, next }) => {
   }, [shippingSubdivision]);
 
   return (
-    <>
+    <React.Fragment>
       <Typography variant="h6" gutterBottom>Shipping address</Typography>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit((data) => next({ ...data, shippingCountry, shippingSubdivision, shippingOption }))}>
@@ -103,7 +103,7 @@ const AddressForm = ({ checkoutToken, next }) => {
           </div>
         </form>
       </FormProvider>
-    </>
+    </React.Fragment>
   );
 };
 
